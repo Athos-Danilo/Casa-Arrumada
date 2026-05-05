@@ -1,0 +1,30 @@
+<div class="auth-container animate-fade-in-up">
+  <div class="glass-panel auth-box">
+    <div class="text-center">
+      <h2 class="title">Bem-vindo(a)</h2>
+      <p class="subtitle">Faça login para organizar a casa</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <label for="username">Usuário</label>
+        <input type="text" id="username" name="username" [(ngModel)]="username" required>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Senha</label>
+        <input type="password" id="password" name="password" [(ngModel)]="password" required>
+      </div>
+
+      <div *ngIf="error" class="error-msg">
+        {{ error }}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Entrar</button>
+    </form>
+
+    <div class="footer-links">
+      <p>Não tem uma conta? <a routerLink="/register">Cadastre-se</a></p>
+    </div>
+  </div>
+</div>

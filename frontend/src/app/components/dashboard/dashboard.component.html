@@ -1,0 +1,69 @@
+<div class="dashboard-layout animate-fade-in-up">
+  <header class="glass-panel header">
+    <div>
+      <h1 class="logo">Casa Arrumada</h1>
+      <p class="greeting">Olá, {{ currentUser?.username }}!</p>
+    </div>
+    <button class="btn btn-outline" style="width: auto" (click)="logout()">Sair</button>
+  </header>
+
+  <main class="content-grid">
+    <!-- Novo Cadastro de Tarefa -->
+    <section class="glass-panel add-task-section">
+      <h3>Adicionar Nova Tarefa</h3>
+      <form (ngSubmit)="addTask()" class="add-task-form">
+        <div class="input-group">
+          <input type="text" placeholder="Qual a tarefa? (ex: Lavar Louça)" [(ngModel)]="newTaskTitle" name="title" required>
+        </div>
+        <div class="input-group">
+          <input type="text" placeholder="Detalhes (opcional)" [(ngModel)]="newTaskDesc" name="desc">
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!newTaskTitle.trim()">Criar Tarefa</button>
+      </form>
+    </section>
+
+    <!-- Lista de Tarefas -->
+    <section class="glass-panel task-list-section">
+      <h3>Tarefas Disponíveis e em Andamento</h3>
+      
+      <div class="task-grid" *ngIf="taskService.tasks().length > 0; else emptyState">
+        <div class="task-card glass-panel" *ngFor="let task of taskService.tasks()">
+          
+          <div class="task-header">
+            <h4>{{ task.title }}</h4>
+            <span class="badge" [ngClass]="{'badge-success': task.status === 'COMPLETED', 'badge-warning': task.status === 'PENDING'}">
+              {{ task.status }}
+            </span>
+          </div>
+          
+          <p class="task-desc" *ngIf="task.description">{{ task.description }}</p>
+          
+          <div class="task-footer">
+            <div class="task-owner">
+              <span *ngIf="task.user">Responsável: <strong>{{ task.user.username }}</strong></span>
+              <span *ngIf="!task.user" style="color: var(--text-secondary)">Sem responsável</span>
+            </div>
+
+            <div class="task-actions" *ngIf="task.status !== 'COMPLETED'">
+              <button class="btn btn-primary btn-sm" *ngIf="!task.user" (click)="claim(task.id)">
+                Assumir
+              </button>
+              
+              <button class="btn btn-success btn-sm" *ngIf="isMyTask(task)" (click)="complete(task.id)">
+                Concluir
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <ng-template #emptyState>
+        <div class="empty-state">
+          <p>Nenhuma tarefa no momento. Que tal adicionar uma?</p>
+        </div>
+      </ng-template>
+
+    </section>
+  </main>
+</div>

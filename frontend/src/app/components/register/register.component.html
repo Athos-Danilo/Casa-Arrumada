@@ -1,0 +1,30 @@
+<div class="auth-container animate-fade-in-up">
+  <div class="glass-panel auth-box">
+    <div class="text-center">
+      <h2 class="title">Criar Conta</h2>
+      <p class="subtitle">Junte-se à Casa Arrumada</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <label for="username">Escolha um Usuário</label>
+        <input type="text" id="username" name="username" [(ngModel)]="username" required>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Crie uma Senha</label>
+        <input type="password" id="password" name="password" [(ngModel)]="password" required>
+      </div>
+
+      <div *ngIf="error" class="error-msg">
+        {{ error }}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </form>
+
+    <div class="footer-links">
+      <p>Já possui conta? <a routerLink="/login">Faça Login</a></p>
+    </div>
+  </div>
+</div>
