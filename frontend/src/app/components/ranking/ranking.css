@@ -1,0 +1,86 @@
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.header-icon {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: var(--shadow-glow);
+}
+
+.podium-panel {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ranking-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+}
+
+.ranking-card:hover {
+  transform: translateX(8px);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.rank-number {
+  font-size: 2rem;
+  font-weight: 800;
+  width: 60px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.user-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.user-info h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.score-badge {
+  background: rgba(139, 92, 246, 0.2);
+  color: var(--primary);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.top-1 {
+  background: linear-gradient(90deg, rgba(251, 191, 36, 0.1), transparent);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+.top-1 .score-badge {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+  border-color: rgba(251, 191, 36, 0.4);
+}
+
+.top-2 {
+  background: linear-gradient(90deg, rgba(156, 163, 175, 0.1), transparent);
+}
+
+.top-3 {
+  background: linear-gradient(90deg, rgba(180, 83, 9, 0.1), transparent);
+}

@@ -12,6 +12,11 @@ export class TasksController {
     return this.tasksService.findAll();
   }
 
+  @Get('history')
+  getHistory(@Request() req) {
+    return this.tasksService.getHistory(req.user.userId);
+  }
+
   @Post()
   create(@Body() body: { title: string, description: string, priority?: string }) {
     return this.tasksService.create(body.title, body.description, body.priority);

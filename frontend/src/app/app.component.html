@@ -1,1 +1,16 @@
-<router-outlet></router-outlet>
+<nav class="navbar glass-panel" *ngIf="isLoggedIn()">
+  <div class="nav-brand">
+    <img src="assets/hero_cleaning.png" alt="Logo" class="nav-logo">
+    <span>Casa Arrumada</span>
+  </div>
+  <div class="nav-links">
+    <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">🏠 Dashboard</a>
+    <a routerLink="/history" routerLinkActive="active" class="nav-link">📜 Histórico</a>
+    <a routerLink="/ranking" routerLinkActive="active" class="nav-link">🏆 Ranking</a>
+    <button (click)="logout()" class="btn btn-outline btn-sm">Sair</button>
+  </div>
+</nav>
+
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>

@@ -18,12 +18,19 @@ export class TaskService {
   private apiUrl = 'http://localhost:3000/tasks';
   
   tasks = signal<Task[]>([]);
+  history = signal<Task[]>([]);
 
   constructor(private http: HttpClient) {}
 
   loadTasks() {
     return this.http.get<Task[]>(this.apiUrl).pipe(
       tap(data => this.tasks.set(data))
+    );
+  }
+
+  loadHistory() {
+    return this.http.get<Task[]>(`${this.apiUrl}/history`).pipe(
+      tap(data => this.history.set(data))
     );
   }
 

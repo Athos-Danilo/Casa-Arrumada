@@ -1,0 +1,28 @@
+<div class="page-header animate-fade-in-up">
+  <img src="assets/history.png" alt="History" class="header-icon">
+  <div>
+    <h2 class="title">Histórico de Tarefas</h2>
+    <p class="subtitle">Tudo o que você já concluiu. Bom trabalho!</p>
+  </div>
+</div>
+
+<div class="history-container animate-fade-in-up">
+  <div *ngIf="taskService.history().length === 0" class="empty-state">
+    <p>Nenhuma tarefa concluída ainda. Mãos à obra! 🧹</p>
+  </div>
+
+  <div class="timeline">
+    <div *ngFor="let task of taskService.history()" class="timeline-item">
+      <div class="timeline-marker" [class.high-priority]="task.priority === 'HIGH'"></div>
+      <div class="glass-panel timeline-content">
+        <div class="task-header">
+          <h4>{{ task.title }}</h4>
+          <span class="badge badge-success">
+            +{{ task.priority === 'HIGH' ? 20 : 10 }} pts
+          </span>
+        </div>
+        <p class="task-desc">{{ task.description }}</p>
+      </div>
+    </div>
+  </div>
+</div>

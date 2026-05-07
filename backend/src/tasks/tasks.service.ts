@@ -16,6 +16,13 @@ export class TasksService {
     return this.tasksRepository.find({ relations: ['user'] });
   }
 
+  async getHistory(userId: number): Promise<Task[]> {
+    return this.tasksRepository.find({
+      where: { user: { id: userId }, status: 'COMPLETED' },
+      order: { id: 'DESC' }
+    });
+  }
+
   async create(title: string, description: string, priority: string = 'NORMAL'): Promise<Task> {
     const task = this.tasksRepository.create({ title, description, priority });
     return this.tasksRepository.save(task);
@@ -39,7 +46,11 @@ export class TasksService {
     if (!task.user || task.user.id !== userId) throw new BadRequestException('You do not own this task');
     
     task.status = 'COMPLETED';
-    // Score update could happen here or via event
+    
+    // Score update
+    const points = task.priority === 'HIGH' ? 20 : 10;
+    await this.usersService.updateScore(userId, points);
+    
     return this.tasksRepository.save(task);
   }
 }

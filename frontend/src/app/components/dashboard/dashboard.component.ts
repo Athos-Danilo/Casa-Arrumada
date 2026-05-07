@@ -1,9 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TaskService } from '../../services/task.service';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,26 +14,28 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit {
   taskService = inject(TaskService);
   authService = inject(AuthService);
-  router = inject(Router);
 
   newTaskTitle = '';
   newTaskDesc = '';
+  newTaskPriority = 'NORMAL';
 
   get currentUser() {
     return this.authService.currentUser();
   }
 
-  ngOnInit() {
-    if (!this.authService.getToken()) {
-      this.router.navigate(['/login']);
-      return;
-    }
-    this.taskService.loadTasks().subscribe();
-  }
+  // Computed signal to filter PENDING tasks and sort by priority
+  pendingTasks = computed(() => {
+    return this.taskService.tasks()
+      .filter(t => t.status !== 'COMPLETED')
+      .sort((a, b) => {
+        if (a.priority === 'HIGH' && b.priority !== 'HIGH') return -1;
+        if (b.priority === 'HIGH' && a.priority !== 'HIGH') return 1;
+        return b.id - a.id;
+      });
+  });
 
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+  ngOnInit() {
+    this.taskService.loadTasks().subscribe();
   }
 
   addTask() {
@@ -42,10 +43,11 @@ export class DashboardComponent implements OnInit {
       this.taskService.createTask({
         title: this.newTaskTitle,
         description: this.newTaskDesc,
-        priority: 'NORMAL' // can be improved later
+        priority: this.newTaskPriority
       }).subscribe(() => {
         this.newTaskTitle = '';
         this.newTaskDesc = '';
+        this.newTaskPriority = 'NORMAL';
       });
     }
   }

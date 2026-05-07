@@ -1,0 +1,30 @@
+<div class="page-header animate-fade-in-up">
+  <img src="assets/trophy.png" alt="Trophy" class="header-icon">
+  <div>
+    <h2 class="title">Ranking da Casa</h2>
+    <p class="subtitle">Quem é o mestre da organização?</p>
+  </div>
+</div>
+
+<div class="ranking-container animate-fade-in-up">
+  <div class="glass-panel podium-panel">
+    <div *ngFor="let user of userService.ranking(); let i = index" 
+         class="ranking-card" 
+         [class.top-1]="i === 0"
+         [class.top-2]="i === 1"
+         [class.top-3]="i === 2">
+      
+      <div class="rank-number">
+        <span *ngIf="i === 0">🥇</span>
+        <span *ngIf="i === 1">🥈</span>
+        <span *ngIf="i === 2">🥉</span>
+        <span *ngIf="i > 2">#{{ i + 1 }}</span>
+      </div>
+      
+      <div class="user-info">
+        <h3>{{ user.username }}</h3>
+        <span class="score-badge">{{ user.score }} pts</span>
+      </div>
+    </div>
+  </div>
+</div>
