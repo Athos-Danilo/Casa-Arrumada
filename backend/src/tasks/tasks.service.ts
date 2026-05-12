@@ -23,8 +23,8 @@ export class TasksService {
     });
   }
 
-  async create(title: string, description: string, priority: string = 'NORMAL'): Promise<Task> {
-    const task = this.tasksRepository.create({ title, description, priority });
+  async create(title: string, description: string, priority: string = 'NORMAL', points: number = 10, timeLimit?: number): Promise<Task> {
+    const task = this.tasksRepository.create({ title, description, priority, points, timeLimit });
     return this.tasksRepository.save(task);
   }
 
@@ -42,15 +42,21 @@ export class TasksService {
   async completeTask(taskId: number, userId: number): Promise<Task> {
     const task = await this.tasksRepository.findOne({ where: { id: taskId }, relations: ['user'] });
     if (!task) throw new NotFoundException('Task not found');
-    if (task.status === 'COMPLETED') throw new BadRequestException('Task already completed');
-    if (!task.user || task.user.id !== userId) throw new BadRequestException('You do not own this task');
+    if (task.status !== 'IN_PROGRESS') throw new BadRequestException('Task is not in progress');
+    if (task.user.id !== userId) throw new BadRequestException('You can only complete your own tasks');
     
     task.status = 'COMPLETED';
-    
-    // Score update
-    const points = task.priority === 'HIGH' ? 20 : 10;
-    await this.usersService.updateScore(userId, points);
-    
-    return this.tasksRepository.save(task);
+    await this.tasksRepository.save(task);
+
+    // Adicionar pontos ao usuário
+    await this.usersService.updateScore(userId, task.points);
+
+    return task;
+  }
+
+  async deleteTask(taskId: number): Promise<void> {
+    const task = await this.tasksRepository.findOne({ where: { id: taskId } });
+    if (!task) throw new NotFoundException('Task not found');
+    await this.tasksRepository.remove(task);
   }
 }

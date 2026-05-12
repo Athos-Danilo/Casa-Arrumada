@@ -53,8 +53,20 @@
 }
 
 .task-card.high-priority {
+  border-left-color: var(--warning);
+  background: linear-gradient(90deg, rgba(234, 179, 8, 0.05), transparent);
+}
+
+.task-card.urgent-task {
   border-left-color: var(--danger);
-  background: linear-gradient(90deg, rgba(239, 68, 68, 0.05), transparent);
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.15), transparent);
+  animation: urgentPulse 2s infinite;
+}
+
+@keyframes urgentPulse {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
 }
 
 .task-header {

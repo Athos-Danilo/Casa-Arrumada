@@ -6,9 +6,9 @@
 </div>
 
 <div class="dashboard-grid animate-fade-in-up">
-  <!-- Formulário de Nova Tarefa -->
-  <div class="glass-panel new-task-panel">
-    <h3>Nova Tarefa</h3>
+  <!-- Formulário de Nova Tarefa (Apenas Admin) -->
+  <div *ngIf="currentUser?.role === 'ADMIN'" class="glass-panel new-task-panel">
+    <h3>Nova Tarefa (Admin)</h3>
     <div class="input-group">
       <label>Título</label>
       <input type="text" [(ngModel)]="newTaskTitle" placeholder="Ex: Lavar a louça">
@@ -20,11 +20,22 @@
     <div class="input-group">
       <label>Prioridade</label>
       <select class="custom-select" [(ngModel)]="newTaskPriority">
-        <option value="NORMAL">Normal (10 pts)</option>
-        <option value="HIGH">Alta 🔥 (20 pts)</option>
+        <option value="NORMAL">Normal</option>
+        <option value="HIGH">Alta 🔥</option>
+        <option value="URGENT">URGENTE 🚨</option>
       </select>
     </div>
-    <button class="btn btn-primary mt-2" (click)="addTask()">Adicionar Tarefa</button>
+    <div class="input-group" style="display: flex; gap: 10px;">
+      <div style="flex: 1;">
+        <label>Pontos</label>
+        <input type="number" [(ngModel)]="newTaskPoints" min="1" placeholder="Ex: 10">
+      </div>
+      <div style="flex: 1;">
+        <label>Tempo (min)</label>
+        <input type="number" [(ngModel)]="newTaskTimeLimit" placeholder="Opcional">
+      </div>
+    </div>
+    <button class="btn btn-primary mt-2" (click)="addTask()">Criar Tarefa Dinâmica</button>
   </div>
 
   <!-- Lista de Tarefas -->
@@ -35,13 +46,24 @@
       <p>Tudo limpo por aqui! 🎉</p>
     </div>
 
-    <div *ngFor="let task of pendingTasks()" class="glass-panel task-card" [class.high-priority]="task.priority === 'HIGH'">
+    <div *ngFor="let task of pendingTasks()" class="glass-panel task-card" 
+         [class.high-priority]="task.priority === 'HIGH'"
+         [class.urgent-task]="task.priority === 'URGENT'">
       <div class="task-info">
         <div class="task-header">
           <h4>{{ task.title }}</h4>
-          <span class="badge" [ngClass]="task.priority === 'HIGH' ? 'badge-danger' : 'badge-primary'">
-            {{ task.priority === 'HIGH' ? '🔥 ALTA' : 'NORMAL' }}
-          </span>
+          <div style="display: flex; gap: 5px; align-items: center;">
+            <span class="badge" 
+                  [ngClass]="{
+                    'badge-primary': task.priority === 'NORMAL',
+                    'badge-warning': task.priority === 'HIGH',
+                    'badge-danger': task.priority === 'URGENT'
+                  }">
+              {{ task.priority === 'URGENT' ? '🚨 URGENTE' : (task.priority === 'HIGH' ? '🔥 ALTA' : 'NORMAL') }}
+            </span>
+            <span class="badge badge-success">⭐ {{ task.points }} pts</span>
+            <span *ngIf="task.timeLimit" class="badge badge-warning">⏱️ {{ task.timeLimit }} min</span>
+          </div>
         </div>
         <p class="task-desc">{{ task.description }}</p>
         
@@ -53,12 +75,17 @@
             Ninguém assumiu ainda
           </span>
 
-          <div class="task-actions">
+          <div class="task-actions" *ngIf="currentUser?.role !== 'ADMIN'">
             <button *ngIf="!task.user" class="btn btn-outline btn-sm" (click)="claim(task.id)">
               ✋ Eu faço!
             </button>
             <button *ngIf="isMyTask(task)" class="btn btn-success btn-sm" (click)="complete(task.id)">
               ✅ Concluir
+            </button>
+          </div>
+          <div class="task-actions" *ngIf="currentUser?.role === 'ADMIN'">
+            <button class="btn btn-outline btn-sm" style="color: var(--danger); border-color: var(--danger);" (click)="deleteTask(task.id)">
+              🗑️ Apagar
             </button>
           </div>
         </div>

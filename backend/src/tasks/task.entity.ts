@@ -12,11 +12,17 @@ export class Task {
   @Column({ nullable: true })
   description: string;
 
-  @Column({ default: 'PENDING' }) // PENDING, COMPLETED
+  @Column({ default: 'PENDING' }) // PENDING, IN_PROGRESS, COMPLETED
   status: string;
 
   @Column({ default: 'NORMAL' }) // NORMAL, HIGH
   priority: string;
+
+  @Column({ default: 10 })
+  points: number;
+
+  @Column({ nullable: true })
+  timeLimit: number; // in minutes
 
   @ManyToOne(() => User, user => user.tasks, { nullable: true })
   user: User;

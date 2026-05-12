@@ -8,6 +8,8 @@ export interface Task {
   description: string;
   status: string;
   priority: string;
+  points?: number;
+  timeLimit?: number;
   user: { id: number, username: string } | null;
 }
 
@@ -34,7 +36,7 @@ export class TaskService {
     );
   }
 
-  createTask(task: { title: string, description: string, priority: string }) {
+  createTask(task: { title: string, description: string, priority: string, points?: number, timeLimit?: number | null }) {
     return this.http.post<Task>(this.apiUrl, task).pipe(
       tap(() => this.loadTasks().subscribe())
     );
@@ -48,6 +50,12 @@ export class TaskService {
 
   completeTask(id: number) {
     return this.http.patch<Task>(`${this.apiUrl}/${id}/complete`, {}).pipe(
+      tap(() => this.loadTasks().subscribe())
+    );
+  }
+
+  deleteTask(id: number) {
+    return this.http.delete(`${this.apiUrl}/${id}`).pipe(
       tap(() => this.loadTasks().subscribe())
     );
   }

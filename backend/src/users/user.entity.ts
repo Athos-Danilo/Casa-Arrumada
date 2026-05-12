@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Task } from '../tasks/task.entity';
+import { Redemption } from './redemption.entity';
 
 @Entity()
 export class User {
@@ -15,6 +16,12 @@ export class User {
   @Column({ default: 0 })
   score: number;
 
+  @Column({ default: 'USER' }) // 'ADMIN' | 'USER'
+  role: string;
+
   @OneToMany(() => Task, task => task.user)
   tasks: Task[];
+
+  @OneToMany(() => Redemption, redemption => redemption.user)
+  redemptions: Redemption[];
 }

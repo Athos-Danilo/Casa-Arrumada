@@ -18,6 +18,8 @@ export class DashboardComponent implements OnInit {
   newTaskTitle = '';
   newTaskDesc = '';
   newTaskPriority = 'NORMAL';
+  newTaskPoints = 10;
+  newTaskTimeLimit: number | null = null;
 
   get currentUser() {
     return this.authService.currentUser();
@@ -43,11 +45,15 @@ export class DashboardComponent implements OnInit {
       this.taskService.createTask({
         title: this.newTaskTitle,
         description: this.newTaskDesc,
-        priority: this.newTaskPriority
+        priority: this.newTaskPriority,
+        points: this.newTaskPoints,
+        timeLimit: this.newTaskTimeLimit
       }).subscribe(() => {
         this.newTaskTitle = '';
         this.newTaskDesc = '';
         this.newTaskPriority = 'NORMAL';
+        this.newTaskPoints = 10;
+        this.newTaskTimeLimit = null;
       });
     }
   }
@@ -60,7 +66,14 @@ export class DashboardComponent implements OnInit {
     this.taskService.completeTask(id).subscribe();
   }
 
+  deleteTask(id: number) {
+    if (confirm('Tem certeza que deseja apagar esta tarefa definitivamente?')) {
+      this.taskService.deleteTask(id).subscribe();
+    }
+  }
+
   isMyTask(task: any): boolean {
-    return task.user?.username === this.currentUser?.username;
+    if (!task.user || !this.currentUser) return false;
+    return task.user.id === this.currentUser.id || task.user.username === this.currentUser.username;
   }
 }

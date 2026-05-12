@@ -1,38 +1,82 @@
 <div class="landing-container">
-  <div class="landing-content animate-fade-in-up">
-    <div class="logo-wrapper">
-      <div class="logo-icon">✨</div>
-      <h1 class="logo-text">Casa Arrumada</h1>
+  <!-- Navbar já está no app.component.html para logados, mas aqui é uma tela separada. -->
+
+  <section class="hero-section animate-fade-in-up">
+    <div class="hero-content">
+      <div class="logo-wrapper">
+        <span class="logo-icon">✨</span>
+        <span class="logo-text">Casa Arrumada</span>
+      </div>
+      <h1 class="hero-title">A rotina da sua casa, <span>agora é um jogo</span></h1>
+      <p class="hero-subtitle">
+        Ajudamos famílias a transformarem as tarefas domésticas em algo divertido. Através de um sistema inovador de tarefas, gamificação e recompensas, manter a casa limpa nunca foi tão empolgante.
+      </p>
+      <div class="action-buttons">
+        <a routerLink="/register" class="btn btn-primary btn-lg">Começar Gratuitamente</a>
+        <a routerLink="/login" class="btn btn-outline btn-lg">Já tenho conta</a>
+      </div>
     </div>
-    
-    <h2 class="hero-title">A organização da sua casa,<br>agora com recompensas.</h2>
-    <p class="hero-subtitle">
-      Transforme as tarefas domésticas em um jogo. Colabore, ganhe pontos e descubra quem é o mestre da organização no nosso ranking exclusivo!
+    <div class="hero-image-wrapper">
+      <img src="cozy_bedroom.png" alt="Quarto aconchegante" class="hero-image">
+    </div>
+  </section>
+
+  <section class="about-section animate-fade-in-up" style="animation-delay: 0.2s;">
+    <h2>Por que o Casa Arrumada?</h2>
+    <p class="about-text">
+      Cansado de ter que pedir mil vezes para as coisas serem feitas? Nossa plataforma transforma a obrigatoriedade em competição amigável. Crie tarefas, atribua pontos e deixe a família disputar quem será o Mestre da Organização da semana!
     </p>
-    
-    <div class="action-buttons">
-      <a routerLink="/login" class="btn btn-primary btn-lg">Começar Agora 🚀</a>
-      <a routerLink="/register" class="btn btn-outline btn-lg">Criar Conta</a>
+  </section>
+
+  <section class="features-grid animate-fade-in-up" style="animation-delay: 0.4s;">
+    <!-- Card Dark -->
+    <div class="feature-card dark-card">
+      <div class="feature-content">
+        <h3>Tarefas Dinâmicas</h3>
+        <p>Crie, avalie e gerencie o trabalho doméstico com facilidade. Prioridades claras para todos.</p>
+        <span class="feature-link">Saiba mais ➔</span>
+      </div>
+      <div class="feature-illustration">📋</div>
     </div>
 
-    <div class="features">
-      <div class="feature-item">
-        <span class="feature-icon">🧹</span>
-        <span>Organização Fácil</span>
+    <!-- Card Light -->
+    <div class="feature-card light-card">
+      <div class="feature-content">
+        <h3>Loja de Benefícios</h3>
+        <p>Use os pontos conquistados para resgatar recompensas reais configuradas por você.</p>
+        <span class="feature-link">Saiba mais ➔</span>
       </div>
-      <div class="feature-item">
-        <span class="feature-icon">🔥</span>
-        <span>Prioridades Claras</span>
-      </div>
-      <div class="feature-item">
-        <span class="feature-icon">🏆</span>
-        <span>Ranking & Gamificação</span>
-      </div>
+      <div class="feature-illustration">🎁</div>
     </div>
-  </div>
-  
-  <div class="landing-image-wrapper animate-fade-in-up" style="animation-delay: 0.2s;">
-    <img src="assets/landing_hero.png" alt="Casa Limpa" class="hero-image">
-    <div class="glow-effect"></div>
-  </div>
+
+    <!-- Card Dark -->
+    <div class="feature-card dark-card">
+      <div class="feature-content">
+        <h3>Alertas Urgentes</h3>
+        <p>Imprevistos acontecem. Crie tarefas urgentes que brilham e chamam a atenção de todos na casa.</p>
+        <span class="feature-link">Saiba mais ➔</span>
+      </div>
+      <div class="feature-illustration">🚨</div>
+    </div>
+
+    <!-- Card Light -->
+    <div class="feature-card light-card">
+      <div class="feature-content">
+        <h3>Ranking</h3>
+        <p>Acompanhe o desempenho e celebre quem mais ajuda no lar em nosso ranking competitivo.</p>
+        <span class="feature-link">Saiba mais ➔</span>
+      </div>
+      <div class="feature-illustration">🏆</div>
+    </div>
+  </section>
+
+  <section class="showcase-section animate-fade-in-up" style="animation-delay: 0.6s;">
+    <div class="showcase-image-wrapper">
+      <img src="modern_house.png" alt="Casa Moderna" class="showcase-image">
+    </div>
+    <div class="showcase-content">
+      <h2>O seu lar em harmonia</h2>
+      <p>Desenvolvemos uma ferramenta simples para que você possa focar no que realmente importa: passar tempo de qualidade com quem você ama, em um ambiente limpo e acolhedor.</p>
+    </div>
+  </section>
 </div>

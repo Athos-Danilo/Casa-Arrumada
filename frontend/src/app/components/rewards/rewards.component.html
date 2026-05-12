@@ -1,0 +1,41 @@
+<div class="rewards-header animate-fade-in-up">
+  <div>
+    <h2 class="title">Meus Benefícios 🎁</h2>
+    <p class="subtitle">Troque seus pontos acumulados por recompensas incríveis!</p>
+  </div>
+  <div class="score-card">
+    <div class="score-label">Seu Saldo Total</div>
+    <div class="score-value">⭐ {{ userData?.score || 0 }} pts</div>
+  </div>
+</div>
+
+<div class="rewards-grid animate-fade-in-up">
+  <div *ngFor="let reward of rewards" class="glass-panel reward-card">
+    <div class="reward-icon">{{ reward.icon }}</div>
+    <div class="reward-info">
+      <h3>{{ reward.title }}</h3>
+      <span class="badge badge-warning">Custa: {{ reward.points }} pts</span>
+    </div>
+    <button 
+      class="btn" 
+      [class.btn-primary]="(userData?.score || 0) >= reward.points"
+      [class.btn-disabled]="(userData?.score || 0) < reward.points"
+      (click)="redeem(reward.points, reward.title)"
+      [disabled]="(userData?.score || 0) < reward.points">
+      Resgatar
+    </button>
+  </div>
+</div>
+
+<div class="history-section animate-fade-in-up" style="margin-top: 40px;" *ngIf="redemptions.length > 0">
+  <h3 style="color: var(--primary); margin-bottom: 20px;">📜 Meu Histórico de Resgates</h3>
+  <div class="history-list">
+    <div *ngFor="let item of redemptions" class="glass-panel" style="padding: 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--warning);">
+      <div>
+        <strong style="font-size: 1.1rem; display: block; color: var(--text-primary);">{{ item.rewardTitle }}</strong>
+        <span style="font-size: 0.85rem; color: var(--text-secondary);">Comprado em: {{ item.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+      <span class="badge badge-warning" style="font-size: 1rem;">-{{ item.pointsCost }} pts</span>
+    </div>
+  </div>
+</div>
